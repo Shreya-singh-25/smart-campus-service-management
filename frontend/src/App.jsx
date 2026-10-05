@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  'https://smart-campus-service-management-7.onrender.com';
+const API_BASE_URL = 'https://smart-campus-service-management-7.onrender.com';
 export default function App() {
   const [currentUser, setCurrentUser] = useState(() => {
     try {
