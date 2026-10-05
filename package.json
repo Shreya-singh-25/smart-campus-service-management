@@ -1,0 +1,10 @@
+{
+  "name": "smart-campus-api-project",
+  "version": "1.0.0",
+  "description": "Smart Campus Full Project",
+  "scripts": {
+    "install": "npm --prefix frontend install",
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build"
+  }
+}

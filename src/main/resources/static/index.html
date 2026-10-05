@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Smart Campus Portal - Service & Facility Hub</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
+            --secondary: #0ea5e9;
+            --secondary-light: #f0f9ff;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+            --dark: #0f172a;
+            --card-bg: #ffffff;
+            --bg: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 18px -2px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 30px -4px rgba(0,0,0,0.12);
+            --bottom-nav-height: 64px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ----------------------------------------------------
+           NAVBAR (LAPTOP & TABLET)
+        ---------------------------------------------------- */
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--dark);
+            flex-shrink: 0;
+        }
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.28);
+        }
+        .brand-text h1 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .brand-text span {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: block;
+        }
+
+        .desktop-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            list-style: none;
+        }
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.55rem 0.85rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+        }
+        .nav-btn:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        .nav-btn.active {
+            color: var(--primary);
+            background: var(--primary-light);
+            font-weight: 700;
+        }
+
+        .user-nav-desktop {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .role-chip {
+            padding: 2px 7px;
+            border-radius: 9999px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .role-ADMIN { background: #fee2e2; color: #b91c1c; }
+        .role-STAFF { background: #fef3c7; color: #b45309; }
+        .role-STUDENT { background: #e0e7ff; color: #4338ca; }
+
+        /* Mobile Header Actions */
+        .mobile-header-actions {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu-toggle-btn {
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Mobile Side Drawer */
+        .mobile-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 90;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .mobile-drawer-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 290px;
+            max-width: 85%;
+            background: white;
+            z-index: 100;
+            box-shadow: -4px 0 25px rgba(0,0,0,0.15);
+            transform: translateX(100%);
+            transition: transform 0.25s ease-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem 1.25rem;
+        }
+        .mobile-drawer-overlay.active .mobile-drawer {
+            transform: translateX(0);
+        }
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .drawer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 1.25rem;
+        }
+        .drawer-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .drawer-btn:hover, .drawer-btn.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .drawer-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        /* ----------------------------------------------------
+           MOBILE BOTTOM APP BAR (PHONE ONLY)
+        ---------------------------------------------------- */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--bottom-nav-height);
+            background: #ffffff;
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 60;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .bottom-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            height: 100%;
+        }
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            color: var(--text-muted);
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+        .bottom-nav-item i {
+            font-size: 1.15rem;
+        }
+        .bottom-nav-item.active {
+            color: var(--primary);
+        }
+        .bottom-nav-item.active i {
+            transform: scale(1.1);
+        }
+
+        /* ----------------------------------------------------
+           MAIN WORKSPACE & LAYOUT
+        ---------------------------------------------------- */
+        .main-content {
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.75rem 1.25rem 3rem 1.25rem;
+            flex: 1;
+        }
+
+        /* Banner */
+        .welcome-card {
+            background: linear-gradient(135deg, #312e81 0%, #4338ca 50%, #6366f1 100%);
+            border-radius: var(--radius-lg);
+            color: white;
+            padding: 2.2rem 2.2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            gap: 1.5rem;
+        }
+        .welcome-card::after {
+            content: '';
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 70%);
+            top: -120px;
+            right: -60px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .welcome-title {
+            font-size: 1.65rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.4rem;
+            line-height: 1.25;
+        }
+        .welcome-desc {
+            font-size: 0.92rem;
+            color: #e0e7ff;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+        .welcome-actions {
+            display: flex;
+            gap: 10px;
+            z-index: 1;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.15rem;
+            margin-bottom: 2.25rem;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .icon-blue { background: #eff6ff; color: #2563eb; }
+        .icon-emerald { background: #ecfdf5; color: #059669; }
+        .icon-amber { background: #fffbeb; color: #d97706; }
+        .icon-purple { background: #faf5ff; color: #9333ea; }
+        .stat-val {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1.1;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        /* Section Header & Responsive Controls */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .controls-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.6rem 1.15rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.28);
+        }
+        .btn-secondary {
+            background: white;
+            color: var(--text-main);
+            border-color: var(--border);
+        }
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        .btn-outline-primary {
+            background: transparent;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        .btn-outline-primary:hover {
+            background: var(--primary-light);
+        }
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+        .btn-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .btn-success:hover {
+            background: #a7f3d0;
+        }
+        .btn-sm {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+
+        /* Form Inputs */
+        .select-input, .text-input {
+            padding: 0.58rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: white;
+            color: var(--text-main);
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .select-input:focus, .text-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.15rem;
+        }
+        .item-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.35rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            gap: 8px;
+        }
+        .card-badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 9999px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .badge-COMPLAINT { background: #fee2e2; color: #dc2626; }
+        .badge-HOSTEL_ISSUE { background: #fef3c7; color: #d97706; }
+        .badge-MAINTENANCE { background: #e0e7ff; color: #4338ca; }
+        .badge-SERVICE_REQUEST { background: #ecfdf5; color: #059669; }
+
+        .badge-status-OPEN { background: #e0f2fe; color: #0284c7; }
+        .badge-status-IN_PROGRESS { background: #fef3c7; color: #d97706; }
+        .badge-status-RESOLVED { background: #dcfce7; color: #16a34a; }
+        .badge-status-REJECTED { background: #fee2e2; color: #dc2626; }
+
+        .badge-priority-HIGH { background: #fecaca; color: #b91c1c; }
+        .badge-priority-MEDIUM { background: #fed7aa; color: #c2410c; }
+        .badge-priority-LOW { background: #e2e8f0; color: #475569; }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.45rem;
+            line-height: 1.35;
+        }
+        .card-desc {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            margin-bottom: 0.95rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        .card-meta {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 0.8rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .card-actions {
+            margin-top: 0.9rem;
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .notice-card {
+            border-left: 4px solid var(--primary);
+        }
+
+        /* ----------------------------------------------------
+           MODAL SYSTEM (RESPONSIVE BOTTOM SHEET ON MOBILE)
+        ---------------------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-box {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 540px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            transform: scale(0.96);
+            transition: transform 0.25s ease;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+        .modal-header {
+            padding: 1.15rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+        .modal-body {
+            padding: 1.25rem 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .modal-footer {
+            padding: 0.95rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 16px; /* Prevents auto-zoom on mobile safari */
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 85px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 250;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+        .toast {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 0.8rem 1.15rem;
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--dark);
+            min-width: 270px;
+            pointer-events: auto;
+            animation: slideIn 0.3s forwards;
+        }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Quick fill demo pills */
+        .quick-fill-bar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 1.15rem;
+            flex-wrap: wrap;
+        }
+        .quick-fill-pill {
+            background: #f1f5f9;
+            border: 1px dashed #cbd5e1;
+            padding: 4px 9px;
+            border-radius: 9999px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+        .quick-fill-pill:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.25rem;
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px dashed var(--border);
+            grid-column: 1 / -1;
+        }
+        .empty-state i {
+            font-size: 2.5rem;
+            color: #cbd5e1;
+            margin-bottom: 0.85rem;
+        }
+        .empty-state h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+        .empty-state p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Table wrapper for mobile responsiveness */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 480px;
+        }
+        .styled-table th, .styled-table td {
+            padding: 9px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .styled-table th {
+            background: #f8fafc;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        /* Tabs */
+        .tab-panel {
+            display: none;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ----------------------------------------------------
+           MEDIA QUERIES (MOBILE PHONE & TABLET BREAKPOINTS)
+        ---------------------------------------------------- */
+        
+        /* Tablets and small laptops (<= 1024px) */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .dashboard-columns {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Mobile Phones and Tablets (<= 768px) */
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: var(--bottom-nav-height);
+            }
+            .desktop-nav-links, .user-nav-desktop {
+                display: none !important;
+            }
+            .mobile-header-actions {
+                display: flex;
+            }
+            .bottom-nav {
+                display: block;
+            }
+            .main-content {
+                padding: 1.25rem 1rem 2rem 1rem;
+            }
+            .welcome-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+                gap: 1.15rem;
+            }
+            .welcome-actions {
+                width: 100%;
+            }
+            .welcome-actions .btn {
+                flex: 1;
+                font-size: 0.85rem;
+                padding: 0.55rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.85rem;
+                margin-bottom: 1.75rem;
+            }
+            .stat-card {
+                padding: 1rem;
+                gap: 0.85rem;
+            }
+            .stat-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.15rem;
+            }
+            .stat-val {
+                font-size: 1.4rem;
+            }
+            .stat-label {
+                font-size: 0.72rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            .controls-row {
+                width: 100%;
+            }
+            .controls-row .select-input, 
+            .controls-row .btn {
+                flex: 1;
+                min-width: 130px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            /* Bottom Sheet style for Modals on Phone */
+            .modal-overlay {
+                align-items: flex-end;
+                padding: 0;
+            }
+            .modal-box {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+                max-height: 85vh;
+                transform: translateY(100%);
+            }
+            .modal-overlay.active .modal-box {
+                transform: translateY(0);
+            }
+            .toast-container {
+                left: 14px;
+                right: 14px;
+                bottom: calc(var(--bottom-nav-height) + 12px);
+            }
+            .toast {
+                min-width: 0;
+                width: 100%;
+            }
+        }
+
+        /* Very Small Phones (<= 400px) */
+        @media (max-width: 400px) {
+            .brand-text h1 {
+                font-size: 1rem;
+            }
+            .brand-text span {
+                display: none;
+            }
+            .welcome-title {
+                font-size: 1.35rem;
+            }
+            .stat-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Navigation Bar (Responsive for Laptop/Tablet) -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand" onclick="switchTab('dashboard')">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Smart Campus</h1>
+                    <span>Service & Facility Portal</span>
+                </div>
+            </a>
+
+            <!-- Desktop Links (Hidden on mobile) -->
+            <ul class="desktop-nav-links">
+                <li><button class="nav-btn active" id="nav-dashboard" onclick="switchTab('dashboard')"><i class="fa-solid fa-house"></i> Overview</button></li>
+                <li><button class="nav-btn" id="nav-tickets" onclick="switchTab('tickets')"><i class="fa-solid fa-ticket"></i> Tickets</button></li>
+                <li><button class="nav-btn" id="nav-lostfound" onclick="switchTab('lostfound')"><i class="fa-solid fa-box-open"></i> Lost & Found</button></li>
+                <li><button class="nav-btn" id="nav-events" onclick="switchTab('events')"><i class="fa-solid fa-calendar-days"></i> Events</button></li>
+                <li><button class="nav-btn" id="nav-notices" onclick="switchTab('notices')"><i class="fa-solid fa-bullhorn"></i> Notices</button></li>
+                <li><a href="/swagger-ui.html" target="_blank" class="nav-btn" title="OpenAPI Docs"><i class="fa-solid fa-code"></i> API Docs</a></li>
+            </ul>
+
+            <!-- Desktop User Profile (Hidden on mobile) -->
+            <div class="user-nav-desktop" id="user-nav-desktop">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Mobile Header Controls (Visible on mobile) -->
+            <div class="mobile-header-actions">
+                <div id="mobile-user-avatar"></div>
+                <button class="menu-toggle-btn" onclick="toggleMobileDrawer()" aria-label="Open Navigation Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Slide-out Drawer -->
+    <div class="mobile-drawer-overlay" id="mobile-drawer-overlay" onclick="toggleMobileDrawer(false)">
+        <div class="mobile-drawer" onclick="event.stopPropagation()">
+            <div>
+                <div class="drawer-header">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-graduation-cap" style="color:var(--primary); font-size:1.3rem;"></i>
+                        <strong style="color:var(--dark); font-size:1.1rem;">Smart Campus</strong>
+                    </div>
+                    <button class="close-btn" onclick="toggleMobileDrawer(false)">&times;</button>
+                </div>
+                
+                <div id="drawer-user-info" style="padding: 1rem 0; border-bottom: 1px solid var(--border);">
+                    <!-- User badge injected here -->
+                </div>
+
+                <ul class="drawer-links">
+                    <li><button class="drawer-btn active" id="drawer-nav-dashboard" onclick="switchTabMobile('dashboard')"><i class="fa-solid fa-house"></i> Overview</button></li>
+                    <li><button class="drawer-btn" id="drawer-nav-tickets" onclick="switchTabMobile('tickets')"><i class="fa-solid fa-ticket"></i> Tickets & Issues</button></li>
+                    <li><button class="drawer-btn" id="drawer-nav-lostfound" onclick="switchTabMobile('lostfound')"><i class="fa-solid fa-box-open"></i> Lost & Found</button></li>
+                    <li><button class="drawer-btn" id="drawer-nav-events" onclick="switchTabMobile('events')"><i class="fa-solid fa-calendar-days"></i> Campus Events</button></li>
+                    <li><button class="drawer-btn" id="drawer-nav-notices" onclick="switchTabMobile('notices')"><i class="fa-solid fa-bullhorn"></i> Notice Board</button></li>
+                    <li><a href="/swagger-ui.html" target="_blank" class="drawer-btn"><i class="fa-solid fa-code"></i> Swagger API Docs</a></li>
+                </ul>
+            </div>
+
+            <div class="drawer-footer" id="drawer-footer-actions">
+                <!-- Login/Logout buttons injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom App Bar (Sticky on Phone screens) -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-grid">
+            <button class="bottom-nav-item active" id="bnav-dashboard" onclick="switchTab('dashboard')">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </button>
+            <button class="bottom-nav-item" id="bnav-tickets" onclick="switchTab('tickets')">
+                <i class="fa-solid fa-ticket"></i>
+                <span>Tickets</span>
+            </button>
+            <button class="bottom-nav-item" id="bnav-lostfound" onclick="switchTab('lostfound')">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Lost/Found</span>
+            </button>
+            <button class="bottom-nav-item" id="bnav-events" onclick="switchTab('events')">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Events</span>
+            </button>
+            <button class="bottom-nav-item" id="bnav-notices" onclick="switchTab('notices')">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span>Notices</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+        
+        <!-- DASHBOARD TAB -->
+        <section id="panel-dashboard" class="tab-panel active">
+            <div class="welcome-card">
+                <div>
+                    <h2 class="welcome-title" id="welcome-user-heading">Welcome to Smart Campus!</h2>
+                    <p class="welcome-desc">Manage hostel tickets, campus maintenance, explore events, and report lost items in real time.</p>
+                </div>
+                <div class="welcome-actions">
+                    <button class="btn btn-secondary" onclick="openCreateTicketModal()"><i class="fa-solid fa-plus"></i> New Ticket</button>
+                    <button class="btn btn-secondary" onclick="openCreateLostFoundModal()"><i class="fa-solid fa-magnifying-glass"></i> Lost & Found</button>
+                </div>
+            </div>
+
+            <!-- Stats Counters -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-ticket"></i></div>
+                    <div>
+                        <div class="stat-val" id="stat-tickets-count">-</div>
+                        <div class="stat-label">Total Tickets</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-emerald"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div>
+                        <div class="stat-val" id="stat-events-count">-</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple"><i class="fa-solid fa-bullhorn"></i></div>
+                    <div>
+                        <div class="stat-val" id="stat-notices-count">-</div>
+                        <div class="stat-label">Campus Notices</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-amber"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div>
+                        <div class="stat-val" id="stat-lostfound-count">-</div>
+                        <div class="stat-label">Lost & Found</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Highlights (2 columns on laptop, 1 on phone) -->
+            <div class="dashboard-columns" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <div class="section-header">
+                        <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Tickets</div>
+                        <button class="btn btn-outline-primary btn-sm" onclick="switchTab('tickets')">View All</button>
+                    </div>
+                    <div id="dash-recent-tickets" class="cards-grid" style="grid-template-columns: 1fr;">
+                        <!-- Injected -->
+                    </div>
+                </div>
+
+                <div>
+                    <div class="section-header">
+                        <div class="section-title"><i class="fa-solid fa-newspaper"></i> Latest Notices</div>
+                        <button class="btn btn-outline-primary btn-sm" onclick="switchTab('notices')">View All</button>
+                    </div>
+                    <div id="dash-recent-notices" class="cards-grid" style="grid-template-columns: 1fr;">
+                        <!-- Injected -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TICKETS TAB -->
+        <section id="panel-tickets" class="tab-panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fa-solid fa-ticket"></i> Service & Complaint Tickets</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 3px;">Hostel issues, maintenance, and student service requests</p>
+                </div>
+                <div class="controls-row">
+                    <select id="ticket-filter-cat" class="select-input" onchange="loadTickets()">
+                        <option value="">All Categories</option>
+                        <option value="COMPLAINT">Complaint</option>
+                        <option value="HOSTEL_ISSUE">Hostel Issue</option>
+                        <option value="MAINTENANCE">Maintenance</option>
+                        <option value="SERVICE_REQUEST">Service Request</option>
+                    </select>
+                    <select id="ticket-filter-status" class="select-input" onchange="loadTickets()">
+                        <option value="">All Statuses</option>
+                        <option value="OPEN">Open</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="RESOLVED">Resolved</option>
+                        <option value="REJECTED">Rejected</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="openCreateTicketModal()"><i class="fa-solid fa-plus"></i> Raise Ticket</button>
+                </div>
+            </div>
+
+            <div id="tickets-container" class="cards-grid">
+                <!-- Tickets list -->
+            </div>
+        </section>
+
+        <!-- LOST & FOUND TAB -->
+        <section id="panel-lostfound" class="tab-panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fa-solid fa-box-open"></i> Lost & Found Portal</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 3px;">Report missing belongings or claim items found on campus</p>
+                </div>
+                <div class="controls-row">
+                    <select id="lf-filter-type" class="select-input" onchange="loadLostFound()">
+                        <option value="">All Items</option>
+                        <option value="LOST">Lost Items</option>
+                        <option value="FOUND">Found Items</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="openCreateLostFoundModal()"><i class="fa-solid fa-plus"></i> Report Item</button>
+                </div>
+            </div>
+
+            <div id="lostfound-container" class="cards-grid">
+                <!-- Lost & Found items -->
+            </div>
+        </section>
+
+        <!-- EVENTS TAB -->
+        <section id="panel-events" class="tab-panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fa-solid fa-calendar-days"></i> Campus Events</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 3px;">Workshops, seminars, cultural fests, and competitions</p>
+                </div>
+                <div class="controls-row">
+                    <button id="btn-create-event" class="btn btn-primary" style="display:none;" onclick="openCreateEventModal()"><i class="fa-solid fa-plus"></i> Create Event</button>
+                </div>
+            </div>
+
+            <div id="events-container" class="cards-grid">
+                <!-- Events -->
+            </div>
+        </section>
+
+        <!-- NOTICES TAB -->
+        <section id="panel-notices" class="tab-panel">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fa-solid fa-bullhorn"></i> Campus Notice Board</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 3px;">Official announcements and department circulars</p>
+                </div>
+                <div class="controls-row">
+                    <button id="btn-create-notice" class="btn btn-primary" style="display:none;" onclick="openCreateNoticeModal()"><i class="fa-solid fa-plus"></i> Post Notice</button>
+                </div>
+            </div>
+
+            <div id="notices-container" class="cards-grid">
+                <!-- Notices -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL: LOGIN / REGISTER -->
+    <div id="auth-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title" id="auth-modal-title">Sign In to Smart Campus</div>
+                <button class="close-btn" onclick="closeModal('auth-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Quick Demo Logins -->
+                <div style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">QUICK DEMO ACCOUNTS:</div>
+                <div class="quick-fill-bar">
+                    <div class="quick-fill-pill" onclick="quickFill('admin@campus.com', 'admin123')"><i class="fa-solid fa-shield"></i> Admin</div>
+                    <div class="quick-fill-pill" onclick="quickFill('staff@campus.com', 'staff123')"><i class="fa-solid fa-user-gear"></i> Staff</div>
+                    <div class="quick-fill-pill" onclick="quickFill('rohan@campus.com', 'password123')"><i class="fa-solid fa-user-graduate"></i> Student</div>
+                </div>
+
+                <!-- Tabs: Login vs Register -->
+                <div style="display: flex; gap: 8px; margin-bottom: 1.15rem; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+                    <button id="tab-btn-login" class="btn btn-sm btn-primary" style="flex:1;" onclick="setAuthMode('login')">Sign In</button>
+                    <button id="tab-btn-register" class="btn btn-sm btn-secondary" style="flex:1;" onclick="setAuthMode('register')">Register New</button>
+                </div>
+
+                <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+                    <div class="form-group" id="group-reg-name" style="display: none;">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" id="auth-name" class="form-control" placeholder="John Doe">
+                    </div>
+                    <div class="form-group" id="group-reg-dept" style="display: none;">
+                        <label class="form-label">Department / Branch</label>
+                        <input type="text" id="auth-dept" class="form-control" placeholder="Computer Science">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" id="auth-email" class="form-control" required placeholder="name@campus.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password *</label>
+                        <input type="password" id="auth-password" class="form-control" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;" id="auth-submit-btn">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CREATE TICKET -->
+    <div id="modal-create-ticket" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">Raise New Ticket</div>
+                <button class="close-btn" onclick="closeModal('modal-create-ticket')">&times;</button>
+            </div>
+            <form onsubmit="handleCreateTicket(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Ticket Title *</label>
+                        <input type="text" id="ticket-title" class="form-control" required placeholder="e.g. WiFi issue in Hostel Block B">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Category *</label>
+                            <select id="ticket-category" class="form-control" required>
+                                <option value="COMPLAINT">Complaint</option>
+                                <option value="HOSTEL_ISSUE">Hostel Issue</option>
+                                <option value="MAINTENANCE">Maintenance</option>
+                                <option value="SERVICE_REQUEST">Service Request</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Priority</label>
+                            <select id="ticket-priority" class="form-control">
+                                <option value="LOW">Low</option>
+                                <option value="MEDIUM" selected>Medium</option>
+                                <option value="HIGH">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Campus Location</label>
+                        <input type="text" id="ticket-location" class="form-control" placeholder="e.g. Room 304, Hostel 2">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Detailed Description *</label>
+                        <textarea id="ticket-desc" class="form-control" required placeholder="Describe the problem or service needed..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-ticket')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: UPDATE TICKET STATUS (ADMIN / STAFF) -->
+    <div id="modal-update-ticket-status" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">Update Ticket Status</div>
+                <button class="close-btn" onclick="closeModal('modal-update-ticket-status')">&times;</button>
+            </div>
+            <form onsubmit="handleUpdateTicketStatus(event)">
+                <input type="hidden" id="status-ticket-id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">New Status *</label>
+                        <select id="status-ticket-val" class="form-control" required>
+                            <option value="IN_PROGRESS">In Progress</option>
+                            <option value="RESOLVED">Resolved</option>
+                            <option value="REJECTED">Rejected</option>
+                            <option value="OPEN">Open</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Admin / Staff Remarks</label>
+                        <textarea id="status-ticket-remarks" class="form-control" placeholder="Add resolution notes or reason for status update..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-update-ticket-status')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CREATE LOST & FOUND -->
+    <div id="modal-create-lostfound" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">Report Lost or Found Item</div>
+                <button class="close-btn" onclick="closeModal('modal-create-lostfound')">&times;</button>
+            </div>
+            <form onsubmit="handleCreateLostFound(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Item Name *</label>
+                        <input type="text" id="lf-name" class="form-control" required placeholder="e.g. Casio fx-991EX Calculator">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Type *</label>
+                            <select id="lf-type" class="form-control" required>
+                                <option value="LOST">I Lost This Item</option>
+                                <option value="FOUND">I Found This Item</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Campus Location *</label>
+                            <input type="text" id="lf-location" class="form-control" required placeholder="e.g. Science Lab 2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description & Identifying marks</label>
+                        <textarea id="lf-desc" class="form-control" placeholder="Color, brand, contents, or where it can be claimed..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-lostfound')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Report Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CREATE EVENT (ADMIN / STAFF) -->
+    <div id="modal-create-event" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">Create Campus Event</div>
+                <button class="close-btn" onclick="closeModal('modal-create-event')">&times;</button>
+            </div>
+            <form onsubmit="handleCreateEvent(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Event Title *</label>
+                        <input type="text" id="event-title" class="form-control" required placeholder="e.g. Annual Tech Symposium 2026">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Venue *</label>
+                            <input type="text" id="event-venue" class="form-control" required placeholder="Main Auditorium">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Capacity *</label>
+                            <input type="number" id="event-capacity" class="form-control" min="1" value="100" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Event Date & Time *</label>
+                        <input type="datetime-local" id="event-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Event Details</label>
+                        <textarea id="event-desc" class="form-control" placeholder="Outline agenda, guest speakers, prerequisites..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-event')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Publish Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: EVENT REGISTRATIONS LIST (ADMIN / STAFF) -->
+    <div id="modal-event-registrations" class="modal-overlay">
+        <div class="modal-box" style="max-width: 650px;">
+            <div class="modal-header">
+                <div class="modal-title" id="event-reg-modal-title">Registered Attendees</div>
+                <button class="close-btn" onclick="closeModal('modal-event-registrations')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive" id="event-reg-list-container">
+                    <!-- Registrations table -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modal-event-registrations')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CREATE NOTICE (ADMIN / STAFF) -->
+    <div id="modal-create-notice" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">Publish Notice</div>
+                <button class="close-btn" onclick="closeModal('modal-create-notice')">&times;</button>
+            </div>
+            <form onsubmit="handleCreateNotice(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Notice Title *</label>
+                        <input type="text" id="notice-title" class="form-control" required placeholder="e.g. Mid-term Exam Schedule">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Notice Content *</label>
+                        <textarea id="notice-content" class="form-control" rows="5" required placeholder="Write the complete announcement text..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-notice')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Publish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toasts" class="toast-container"></div>
+
+    <!-- App JavaScript -->
+    <script>
+        // State
+        let currentUser = null;
+        let authMode = 'login';
+        let myRegistrationsMap = new Set();
+
+        // Init on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('sc_user');
+            const token = localStorage.getItem('sc_jwt');
+            if (savedUser && token) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                } catch(e) {
+                    currentUser = null;
+                }
+            }
+            renderUserState();
+            loadDashboard();
+
+            // Set default future date in Event modal
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 2);
+            tomorrow.setHours(10, 0, 0, 0);
+            document.getElementById('event-date').value = tomorrow.toISOString().slice(0, 16);
+        });
+
+        function getToken() {
+            return localStorage.getItem('sc_jwt');
+        }
+
+        // API Helper
+        async function api(url, options = {}) {
+            const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+            const token = getToken();
+            if (token) {
+                headers['Authorization'] = 'Bearer ' + token;
+            }
+            try {
+                const res = await fetch(url, { ...options, headers });
+                if (res.status === 401) {
+                    showToast('Session expired or login required.', 'error');
+                    logout();
+                    openAuthModal('login');
+                    throw new Error('Unauthorized');
+                }
+                if (res.status === 204) return null;
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.message || data.error || ('Request failed with code ' + res.status));
+                }
+                return data;
+            } catch (err) {
+                throw err;
+            }
+        }
+
+        // Toast
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toasts');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-circle-check' : (type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-info');
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.desktop-nav-links .nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.drawer-btn').forEach(b => b.classList.remove('active'));
+
+            const panel = document.getElementById(`panel-${tabId}`);
+            const btn = document.getElementById(`nav-${tabId}`);
+            const bnav = document.getElementById(`bnav-${tabId}`);
+            const dnav = document.getElementById(`drawer-nav-${tabId}`);
+
+            if (panel) panel.classList.add('active');
+            if (btn) btn.classList.add('active');
+            if (bnav) bnav.classList.add('active');
+            if (dnav) dnav.classList.add('active');
+
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (tabId === 'dashboard') loadDashboard();
+            else if (tabId === 'tickets') loadTickets();
+            else if (tabId === 'lostfound') loadLostFound();
+            else if (tabId === 'events') loadEvents();
+            else if (tabId === 'notices') loadNotices();
+        }
+
+        function switchTabMobile(tabId) {
+            switchTab(tabId);
+            toggleMobileDrawer(false);
+        }
+
+        function toggleMobileDrawer(forceState) {
+            const drawer = document.getElementById('mobile-drawer-overlay');
+            if (forceState !== undefined) {
+                drawer.classList.toggle('active', forceState);
+            } else {
+                drawer.classList.toggle('active');
+            }
+        }
+
+        // Render Navbar and Mobile Drawer user state
+        function renderUserState() {
+            const desktopArea = document.getElementById('user-nav-desktop');
+            const mobileAvatar = document.getElementById('mobile-user-avatar');
+            const drawerUserInfo = document.getElementById('drawer-user-info');
+            const drawerFooter = document.getElementById('drawer-footer-actions');
+            const createEventBtn = document.getElementById('btn-create-event');
+            const createNoticeBtn = document.getElementById('btn-create-notice');
+
+            if (currentUser) {
+                const isPrivileged = currentUser.role === 'ADMIN' || currentUser.role === 'STAFF';
+                if (createEventBtn) createEventBtn.style.display = isPrivileged ? 'inline-flex' : 'none';
+                if (createNoticeBtn) createNoticeBtn.style.display = isPrivileged ? 'inline-flex' : 'none';
+
+                // Desktop user bar
+                desktopArea.innerHTML = `
+                    <div class="user-pill">
+                        <i class="fa-solid fa-user-circle" style="color: var(--primary); font-size: 1.15rem;"></i>
+                        <span>${currentUser.name}</span>
+                        <span class="role-chip role-${currentUser.role}">${currentUser.role}</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="logout()" title="Sign Out">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                `;
+
+                // Mobile header badge
+                mobileAvatar.innerHTML = `
+                    <div class="role-chip role-${currentUser.role}" style="cursor:pointer;" onclick="toggleMobileDrawer(true)">
+                        ${currentUser.role}
+                    </div>
+                `;
+
+                // Drawer user details
+                drawerUserInfo.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <i class="fa-solid fa-user-circle" style="color: var(--primary); font-size: 2.2rem;"></i>
+                        <div>
+                            <div style="font-weight:700; color:var(--dark); font-size:0.95rem;">${escapeHtml(currentUser.name)}</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(currentUser.email)}</div>
+                            <span class="role-chip role-${currentUser.role}" style="margin-top:4px; display:inline-block;">${currentUser.role}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Drawer footer
+                drawerFooter.innerHTML = `
+                    <button class="btn btn-danger" style="width:100%; justify-content:center;" onclick="logout(); toggleMobileDrawer(false);">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                    </button>
+                `;
+
+                document.getElementById('welcome-user-heading').innerText = `Welcome back, ${currentUser.name}!`;
+            } else {
+                if (createEventBtn) createEventBtn.style.display = 'none';
+                if (createNoticeBtn) createNoticeBtn.style.display = 'none';
+
+                // Desktop user bar
+                desktopArea.innerHTML = `
+                    <button class="btn btn-outline-primary btn-sm" onclick="openAuthModal('login')">Sign In</button>
+                    <button class="btn btn-primary btn-sm" onclick="openAuthModal('register')">Register</button>
+                `;
+
+                // Mobile header
+                mobileAvatar.innerHTML = `
+                    <button class="btn btn-primary btn-sm" onclick="openAuthModal('login')">Sign In</button>
+                `;
+
+                // Drawer
+                drawerUserInfo.innerHTML = `
+                    <div style="color:var(--text-muted); font-size:0.85rem;">You are currently browsing as a guest.</div>
+                `;
+
+                drawerFooter.innerHTML = `
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-outline-primary" style="flex:1;" onclick="openAuthModal('login'); toggleMobileDrawer(false);">Sign In</button>
+                        <button class="btn btn-primary" style="flex:1;" onclick="openAuthModal('register'); toggleMobileDrawer(false);">Register</button>
+                    </div>
+                `;
+
+                document.getElementById('welcome-user-heading').innerText = `Welcome to Smart Campus!`;
+            }
+        }
+
+        // Auth
+        function openAuthModal(mode = 'login') {
+            setAuthMode(mode);
+            document.getElementById('auth-modal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function setAuthMode(mode) {
+            authMode = mode;
+            const isReg = mode === 'register';
+            document.getElementById('auth-modal-title').innerText = isReg ? 'Register as Student' : 'Sign In to Smart Campus';
+            document.getElementById('group-reg-name').style.display = isReg ? 'block' : 'none';
+            document.getElementById('group-reg-dept').style.display = isReg ? 'block' : 'none';
+            document.getElementById('auth-submit-btn').innerText = isReg ? 'Create Account' : 'Sign In';
+
+            document.getElementById('tab-btn-login').className = isReg ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-primary';
+            document.getElementById('tab-btn-register').className = isReg ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-secondary';
+        }
+
+        function quickFill(email, pw) {
+            setAuthMode('login');
+            document.getElementById('auth-email').value = email;
+            document.getElementById('auth-password').value = pw;
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+
+            try {
+                if (authMode === 'login') {
+                    const data = await api('/api/auth/login', {
+                        method: 'POST',
+                        body: JSON.stringify({ email, password })
+                    });
+                    localStorage.setItem('sc_jwt', data.token);
+                    currentUser = { name: data.name, email: data.email, role: data.role };
+                    localStorage.setItem('sc_user', JSON.stringify(currentUser));
+                    showToast(`Signed in successfully as ${data.name} (${data.role})!`, 'success');
+                } else {
+                    const name = document.getElementById('auth-name').value;
+                    const department = document.getElementById('auth-dept').value;
+                    const data = await api('/api/auth/register', {
+                        method: 'POST',
+                        body: JSON.stringify({ name, email, password, department })
+                    });
+                    localStorage.setItem('sc_jwt', data.token);
+                    currentUser = { name: data.name, email: data.email, role: data.role };
+                    localStorage.setItem('sc_user', JSON.stringify(currentUser));
+                    showToast(`Student registered! Welcome ${data.name}!`, 'success');
+                }
+                closeModal('auth-modal');
+                renderUserState();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('sc_jwt');
+            localStorage.removeItem('sc_user');
+            currentUser = null;
+            renderUserState();
+            loadDashboard();
+            showToast('Logged out.', 'info');
+        }
+
+        // DASHBOARD LOADER
+        async function loadDashboard() {
+            if (!currentUser) {
+                document.getElementById('stat-tickets-count').innerText = '0';
+                document.getElementById('stat-events-count').innerText = '0';
+                document.getElementById('stat-notices-count').innerText = '0';
+                document.getElementById('stat-lostfound-count').innerText = '0';
+                document.getElementById('dash-recent-tickets').innerHTML = `<div class="empty-state"><i class="fa-solid fa-lock"></i><h3>Please Sign In</h3><p>Sign in to view your tickets and campus activity.</p></div>`;
+                document.getElementById('dash-recent-notices').innerHTML = `<div class="empty-state"><i class="fa-solid fa-lock"></i><h3>Please Sign In</h3><p>Sign in to read notices.</p></div>`;
+                return;
+            }
+
+            try {
+                const [ticketsRes, eventsRes, noticesRes, lfRes] = await Promise.all([
+                    api('/api/tickets?size=4'),
+                    api('/api/events'),
+                    api('/api/notices'),
+                    api('/api/lost-found')
+                ]);
+
+                document.getElementById('stat-tickets-count').innerText = ticketsRes.totalElements ?? ticketsRes.content?.length ?? 0;
+                document.getElementById('stat-events-count').innerText = eventsRes.length ?? 0;
+                document.getElementById('stat-notices-count').innerText = noticesRes.length ?? 0;
+                document.getElementById('stat-lostfound-count').innerText = lfRes.length ?? 0;
+
+                // Render Recent Tickets
+                const tBox = document.getElementById('dash-recent-tickets');
+                const ticketsList = ticketsRes.content || [];
+                if (ticketsList.length === 0) {
+                    tBox.innerHTML = `<div class="empty-state"><i class="fa-solid fa-ticket"></i><h3>No Tickets Found</h3><p>Raise a ticket when you face any campus issue.</p></div>`;
+                } else {
+                    tBox.innerHTML = ticketsList.slice(0, 3).map(renderTicketCardHtml).join('');
+                }
+
+                // Render Recent Notices
+                const nBox = document.getElementById('dash-recent-notices');
+                if (noticesRes.length === 0) {
+                    nBox.innerHTML = `<div class="empty-state"><i class="fa-solid fa-bullhorn"></i><h3>No Notices</h3><p>Campus announcements will appear here.</p></div>`;
+                } else {
+                    nBox.innerHTML = noticesRes.slice(0, 3).map(renderNoticeCardHtml).join('');
+                }
+
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // TICKETS
+        async function loadTickets() {
+            if (!currentUser) {
+                document.getElementById('tickets-container').innerHTML = `<div class="empty-state"><i class="fa-solid fa-lock"></i><h3>Login Required</h3><p>Sign in to view and create campus service tickets.</p></div>`;
+                return;
+            }
+            const cat = document.getElementById('ticket-filter-cat').value;
+            const st = document.getElementById('ticket-filter-status').value;
+            let url = `/api/tickets?page=0&size=50`;
+            if (cat) url += `&category=${cat}`;
+            if (st) url += `&status=${st}`;
+
+            try {
+                const res = await api(url);
+                const list = res.content || [];
+                const container = document.getElementById('tickets-container');
+                if (list.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-ticket"></i><h3>No tickets match filter</h3><p>Click "Raise Ticket" to submit a new service request.</p></div>`;
+                } else {
+                    container.innerHTML = list.map(renderTicketCardHtml).join('');
+                }
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function renderTicketCardHtml(t) {
+            const isPrivileged = currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'STAFF');
+            const isOwner = currentUser && t.createdBy && t.createdBy.email === currentUser.email;
+
+            return `
+                <div class="item-card">
+                    <div>
+                        <div class="card-top">
+                            <div class="card-badges">
+                                <span class="badge badge-${t.category}">${t.category.replace('_', ' ')}</span>
+                                <span class="badge badge-priority-${t.priority}">${t.priority}</span>
+                                <span class="badge badge-status-${t.status}">${t.status.replace('_', ' ')}</span>
+                            </div>
+                            <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700;">#${t.id}</span>
+                        </div>
+                        <h3 class="card-title">${escapeHtml(t.title)}</h3>
+                        <p class="card-desc">${escapeHtml(t.description)}</p>
+                    </div>
+
+                    <div>
+                        ${t.adminRemarks ? `
+                            <div style="background: #f8fafc; border-left: 3px solid var(--primary); padding: 8px 12px; border-radius: 4px; margin-bottom: 8px; font-size: 0.78rem;">
+                                <strong>Admin Remarks:</strong> ${escapeHtml(t.adminRemarks)}
+                            </div>
+                        ` : ''}
+
+                        <div class="card-meta">
+                            <div class="meta-row"><i class="fa-solid fa-location-dot"></i> <span>${escapeHtml(t.location || 'Campus')}</span></div>
+                            <div class="meta-row"><i class="fa-solid fa-user"></i> <span>${escapeHtml(t.createdBy?.name || 'Student')} (${t.createdBy?.department || 'General'})</span></div>
+                            <div class="meta-row"><i class="fa-solid fa-calendar"></i> <span>${new Date(t.createdAt).toLocaleString()}</span></div>
+                        </div>
+
+                        <div class="card-actions">
+                            ${isPrivileged ? `
+                                <button class="btn btn-secondary btn-sm" onclick="openUpdateTicketStatusModal(${t.id}, '${t.status}', '${escapeQuotes(t.adminRemarks || '')}')">
+                                    <i class="fa-solid fa-pen-to-square"></i> Status
+                                </button>
+                            ` : ''}
+                            ${(isOwner && t.status === 'OPEN') || currentUser?.role === 'ADMIN' ? `
+                                <button class="btn btn-danger btn-sm" onclick="deleteTicket(${t.id})">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openCreateTicketModal() {
+            if (!currentUser) return openAuthModal('login');
+            document.getElementById('ticket-title').value = '';
+            document.getElementById('ticket-location').value = '';
+            document.getElementById('ticket-desc').value = '';
+            document.getElementById('modal-create-ticket').classList.add('active');
+        }
+
+        async function handleCreateTicket(e) {
+            e.preventDefault();
+            const body = {
+                title: document.getElementById('ticket-title').value,
+                category: document.getElementById('ticket-category').value,
+                priority: document.getElementById('ticket-priority').value,
+                location: document.getElementById('ticket-location').value,
+                description: document.getElementById('ticket-desc').value
+            };
+            try {
+                await api('/api/tickets', { method: 'POST', body: JSON.stringify(body) });
+                showToast('Ticket submitted successfully!', 'success');
+                closeModal('modal-create-ticket');
+                loadTickets();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function openUpdateTicketStatusModal(id, currentStatus, currentRemarks) {
+            document.getElementById('status-ticket-id').value = id;
+            document.getElementById('status-ticket-val').value = currentStatus;
+            document.getElementById('status-ticket-remarks').value = currentRemarks;
+            document.getElementById('modal-update-ticket-status').classList.add('active');
+        }
+
+        async function handleUpdateTicketStatus(e) {
+            e.preventDefault();
+            const id = document.getElementById('status-ticket-id').value;
+            const body = {
+                status: document.getElementById('status-ticket-val').value,
+                adminRemarks: document.getElementById('status-ticket-remarks').value
+            };
+            try {
+                await api(`/api/tickets/${id}/status`, { method: 'PATCH', body: JSON.stringify(body) });
+                showToast('Ticket status updated!', 'success');
+                closeModal('modal-update-ticket-status');
+                loadTickets();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function deleteTicket(id) {
+            if (!confirm('Are you sure you want to delete this ticket?')) return;
+            try {
+                await api(`/api/tickets/${id}`, { method: 'DELETE' });
+                showToast('Ticket deleted.', 'info');
+                loadTickets();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        // LOST & FOUND
+        async function loadLostFound() {
+            const type = document.getElementById('lf-filter-type').value;
+            let url = '/api/lost-found';
+            if (type) url += `?type=${type}`;
+            try {
+                const list = await api(url);
+                const container = document.getElementById('lostfound-container');
+                if (list.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-box-open"></i><h3>No Items Found</h3><p>Report any lost or found belongings to help campus peers.</p></div>`;
+                } else {
+                    container.innerHTML = list.map(item => {
+                        const isOwner = currentUser && item.reportedBy && item.reportedBy.email === currentUser.email;
+                        const isPrivileged = currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'STAFF');
+
+                        return `
+                            <div class="item-card">
+                                <div>
+                                    <div class="card-top">
+                                        <div class="card-badges">
+                                            <span class="badge ${item.type === 'LOST' ? 'badge-COMPLAINT' : 'badge-SERVICE_REQUEST'}">${item.type}</span>
+                                            <span class="badge ${item.status === 'OPEN' ? 'badge-status-OPEN' : 'badge-status-RESOLVED'}">${item.status}</span>
+                                        </div>
+                                        <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700;">#${item.id}</span>
+                                    </div>
+                                    <h3 class="card-title">${escapeHtml(item.itemName)}</h3>
+                                    <p class="card-desc">${escapeHtml(item.description || 'No additional details.')}</p>
+                                </div>
+
+                                <div>
+                                    <div class="card-meta">
+                                        <div class="meta-row"><i class="fa-solid fa-location-dot"></i> <span>${escapeHtml(item.location)}</span></div>
+                                        <div class="meta-row"><i class="fa-solid fa-user"></i> <span>Reported by: ${escapeHtml(item.reportedBy?.name || 'Anonymous')}</span></div>
+                                        <div class="meta-row"><i class="fa-solid fa-calendar"></i> <span>${new Date(item.createdAt).toLocaleDateString()}</span></div>
+                                    </div>
+
+                                    <div class="card-actions">
+                                        ${item.status === 'OPEN' ? `
+                                            <button class="btn btn-success btn-sm" onclick="claimLostFound(${item.id})">
+                                                <i class="fa-solid fa-hand-holding-hand"></i> Claim
+                                            </button>
+                                        ` : ''}
+                                        ${isOwner || isPrivileged ? `
+                                            <button class="btn btn-danger btn-sm" onclick="deleteLostFound(${item.id})">
+                                                <i class="fa-solid fa-trash"></i> Delete
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function openCreateLostFoundModal() {
+            if (!currentUser) return openAuthModal('login');
+            document.getElementById('lf-name').value = '';
+            document.getElementById('lf-location').value = '';
+            document.getElementById('lf-desc').value = '';
+            document.getElementById('modal-create-lostfound').classList.add('active');
+        }
+
+        async function handleCreateLostFound(e) {
+            e.preventDefault();
+            const body = {
+                itemName: document.getElementById('lf-name').value,
+                type: document.getElementById('lf-type').value,
+                location: document.getElementById('lf-location').value,
+                description: document.getElementById('lf-desc').value
+            };
+            try {
+                await api('/api/lost-found', { method: 'POST', body: JSON.stringify(body) });
+                showToast('Item posted successfully!', 'success');
+                closeModal('modal-create-lostfound');
+                loadLostFound();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function claimLostFound(id) {
+            try {
+                await api(`/api/lost-found/${id}/claim`, { method: 'PATCH' });
+                showToast('Item marked as claimed!', 'success');
+                loadLostFound();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function deleteLostFound(id) {
+            if (!confirm('Delete this lost/found entry?')) return;
+            try {
+                await api(`/api/lost-found/${id}`, { method: 'DELETE' });
+                showToast('Item entry removed.', 'info');
+                loadLostFound();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        // EVENTS
+        async function loadEvents() {
+            try {
+                if (currentUser) {
+                    try {
+                        const myRegs = await api('/api/events/my-registrations');
+                        myRegistrationsMap = new Set(myRegs.map(r => r.event?.id));
+                    } catch(e) {
+                        myRegistrationsMap = new Set();
+                    }
+                }
+
+                const list = await api('/api/events');
+                const container = document.getElementById('events-container');
+                if (list.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-calendar-xmark"></i><h3>No Events Scheduled</h3><p>Check back later or ask administrators to post upcoming events.</p></div>`;
+                } else {
+                    container.innerHTML = list.map(ev => {
+                        const isRegistered = myRegistrationsMap.has(ev.id);
+                        const isFull = ev.registeredCount >= ev.capacity;
+                        const isPrivileged = currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'STAFF');
+                        const isAdmin = currentUser && currentUser.role === 'ADMIN';
+
+                        return `
+                            <div class="item-card">
+                                <div>
+                                    <div class="card-top">
+                                        <div class="card-badges">
+                                            <span class="badge badge-HOSTEL_ISSUE"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(ev.venue)}</span>
+                                            <span class="badge ${isFull ? 'badge-priority-HIGH' : 'badge-status-OPEN'}">
+                                                ${ev.registeredCount || 0} / ${ev.capacity} seats
+                                            </span>
+                                            ${isRegistered ? `<span class="badge badge-status-RESOLVED"><i class="fa-solid fa-check"></i> Registered</span>` : ''}
+                                        </div>
+                                    </div>
+                                    <h3 class="card-title">${escapeHtml(ev.title)}</h3>
+                                    <p class="card-desc">${escapeHtml(ev.description || 'No description provided.')}</p>
+                                </div>
+
+                                <div>
+                                    <div class="card-meta">
+                                        <div class="meta-row"><i class="fa-solid fa-clock"></i> <span>${new Date(ev.eventDate).toLocaleString()}</span></div>
+                                        <div class="meta-row"><i class="fa-solid fa-user-shield"></i> <span>Organized by: ${escapeHtml(ev.createdBy?.name || 'Staff')}</span></div>
+                                    </div>
+
+                                    <div class="card-actions">
+                                        ${isPrivileged ? `
+                                            <button class="btn btn-secondary btn-sm" onclick="viewEventAttendees(${ev.id}, '${escapeQuotes(ev.title)}')">
+                                                <i class="fa-solid fa-users"></i> Attendees
+                                            </button>
+                                        ` : ''}
+                                        ${isRegistered ? `
+                                            <button class="btn btn-danger btn-sm" onclick="cancelEventRegistration(${ev.id})">
+                                                <i class="fa-solid fa-xmark"></i> Cancel
+                                            </button>
+                                        ` : `
+                                            <button class="btn btn-primary btn-sm" ${isFull ? 'disabled' : ''} onclick="registerForEvent(${ev.id})">
+                                                <i class="fa-solid fa-ticket"></i> ${isFull ? 'Full' : 'Register'}
+                                            </button>
+                                        `}
+                                        ${isAdmin ? `
+                                            <button class="btn btn-danger btn-sm" onclick="deleteEvent(${ev.id})">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function openCreateEventModal() {
+            document.getElementById('event-title').value = '';
+            document.getElementById('event-venue').value = '';
+            document.getElementById('event-capacity').value = '100';
+            document.getElementById('event-desc').value = '';
+            document.getElementById('modal-create-event').classList.add('active');
+        }
+
+        async function handleCreateEvent(e) {
+            e.preventDefault();
+            const dateVal = document.getElementById('event-date').value;
+            const body = {
+                title: document.getElementById('event-title').value,
+                venue: document.getElementById('event-venue').value,
+                capacity: parseInt(document.getElementById('event-capacity').value, 10),
+                eventDate: dateVal ? new Date(dateVal).toISOString() : null,
+                description: document.getElementById('event-desc').value
+            };
+            try {
+                await api('/api/events', { method: 'POST', body: JSON.stringify(body) });
+                showToast('Event published successfully!', 'success');
+                closeModal('modal-create-event');
+                loadEvents();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function registerForEvent(id) {
+            if (!currentUser) return openAuthModal('login');
+            try {
+                await api(`/api/events/${id}/register`, { method: 'POST' });
+                showToast('Registered for event successfully!', 'success');
+                loadEvents();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function cancelEventRegistration(id) {
+            if (!confirm('Cancel your registration for this event?')) return;
+            try {
+                await api(`/api/events/${id}/register`, { method: 'DELETE' });
+                showToast('Registration cancelled.', 'info');
+                loadEvents();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function viewEventAttendees(id, title) {
+            document.getElementById('event-reg-modal-title').innerText = `Attendees: ${title}`;
+            const box = document.getElementById('event-reg-list-container');
+            box.innerHTML = `<div style="text-align:center; padding: 2rem;"><i class="fa-solid fa-spinner fa-spin"></i> Loading attendees...</div>`;
+            document.getElementById('modal-event-registrations').classList.add('active');
+
+            try {
+                const regs = await api(`/api/events/${id}/registrations`);
+                if (regs.length === 0) {
+                    box.innerHTML = `<div class="empty-state"><i class="fa-solid fa-users-slash"></i><h3>No Attendees Yet</h3><p>No students have registered for this event yet.</p></div>`;
+                } else {
+                    box.innerHTML = `
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student Name</th>
+                                    <th>Email</th>
+                                    <th>Department</th>
+                                    <th>Registered At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${regs.map((r, i) => `
+                                    <tr>
+                                        <td>${i + 1}</td>
+                                        <td><strong>${escapeHtml(r.user?.name || 'N/A')}</strong></td>
+                                        <td>${escapeHtml(r.user?.email || 'N/A')}</td>
+                                        <td>${escapeHtml(r.user?.department || 'General')}</td>
+                                        <td>${new Date(r.registeredAt).toLocaleString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                }
+            } catch (err) {
+                box.innerHTML = `<p style="color:var(--danger)">Error loading registrations: ${err.message}</p>`;
+            }
+        }
+
+        async function deleteEvent(id) {
+            if (!confirm('Are you sure you want to permanently delete this event?')) return;
+            try {
+                await api(`/api/events/${id}`, { method: 'DELETE' });
+                showToast('Event deleted.', 'info');
+                loadEvents();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        // NOTICES
+        async function loadNotices() {
+            try {
+                const list = await api('/api/notices');
+                const container = document.getElementById('notices-container');
+                if (list.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-bullhorn"></i><h3>No Notices Posted</h3><p>Official notices will appear here once published.</p></div>`;
+                } else {
+                    container.innerHTML = list.map(renderNoticeCardHtml).join('');
+                }
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function renderNoticeCardHtml(n) {
+            const isPrivileged = currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'STAFF');
+
+            return `
+                <div class="item-card notice-card">
+                    <div>
+                        <div class="card-top">
+                            <span class="badge badge-HOSTEL_ISSUE"><i class="fa-solid fa-bell"></i> Official Notice</span>
+                            <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700;">#${n.id}</span>
+                        </div>
+                        <h3 class="card-title">${escapeHtml(n.title)}</h3>
+                        <p class="card-desc" style="white-space: pre-line;">${escapeHtml(n.content)}</p>
+                    </div>
+
+                    <div>
+                        <div class="card-meta">
+                            <div class="meta-row"><i class="fa-solid fa-user-pen"></i> <span>Posted by: ${escapeHtml(n.createdBy?.name || 'Administration')} (${n.createdBy?.role || 'STAFF'})</span></div>
+                            <div class="meta-row"><i class="fa-solid fa-calendar"></i> <span>${new Date(n.createdAt).toLocaleString()}</span></div>
+                        </div>
+
+                        ${isPrivileged ? `
+                            <div class="card-actions">
+                                <button class="btn btn-danger btn-sm" onclick="deleteNotice(${n.id})">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function openCreateNoticeModal() {
+            document.getElementById('notice-title').value = '';
+            document.getElementById('notice-content').value = '';
+            document.getElementById('modal-create-notice').classList.add('active');
+        }
+
+        async function handleCreateNotice(e) {
+            e.preventDefault();
+            const body = {
+                title: document.getElementById('notice-title').value,
+                content: document.getElementById('notice-content').value
+            };
+            try {
+                await api('/api/notices', { method: 'POST', body: JSON.stringify(body) });
+                showToast('Notice published successfully!', 'success');
+                closeModal('modal-create-notice');
+                loadNotices();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function deleteNotice(id) {
+            if (!confirm('Are you sure you want to delete this notice?')) return;
+            try {
+                await api(`/api/notices/${id}`, { method: 'DELETE' });
+                showToast('Notice deleted.', 'info');
+                loadNotices();
+                loadDashboard();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        // Helpers
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, s => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[s]));
+        }
+
+        function escapeQuotes(str) {
+            if (!str) return '';
+            return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>
